@@ -7,10 +7,10 @@ export default function FavoriteScreen() {
     return (
         <View 
             style = {[styles.container, (theme === 'light' ? styles.container : styles.containerDark)]}>
-            <Text>Pokemon  {theme}</Text>
+            <Text 
+                style = {(theme === 'light' ? styles.textlayout : styles.textlayoutDark)}>No Favorite</Text>
 
-            <Button title='Back'
-                    onPress={() => router.back()} />
+            
         </View>
     );
 }
@@ -27,5 +27,12 @@ const styles = StyleSheet.create({
         backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    textlayout: {
+        fontSize: 25
+    },
+    textlayoutDark: {
+        color: "white",
+        fontSize: 25
     },
 });

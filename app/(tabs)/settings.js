@@ -1,16 +1,18 @@
 import {StyleSheet, View, Text, Button, Switch, TouchableOpacity} from "react-native";
 import {Link, router} from "expo-router";
 import {useMyTheme} from "../../src/context/MyTheme";
+import { useNavigation } from '@react-navigation/native';
 
 export default function SettingsScreen() {
     const {  theme, setTheme, toggleTheme, data } = useMyTheme();
+    const navigation = useNavigation();
     return (
         <View 
             style = {[styles.container, (theme === 'light' ? styles.container : styles.containerDark)]}>
             {/* <Text>Settings {theme}</Text> */}
-            <Text>
+            {/* <Text>
                 {theme}
-            </Text>
+            </Text> */}
             <TouchableOpacity
                 onPress={() => toggleTheme()}
                 style = {{
@@ -28,7 +30,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             <TouchableOpacity
-                onPress={() => router.dismissAll}
+                onPress={() => navigation.popToTop()}
                 style = {{
                         paddingHorizontal: 14,
                         paddingVertical: 8,

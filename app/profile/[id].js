@@ -8,16 +8,25 @@ import BgImage from '../../assets/Pokedex-preview.png';
 export default function ViewProfile() {
     const { id } = useLocalSearchParams();
     const {  theme, setTheme, data } = useMyTheme();
-    const [pokeDetail, setPokeDetail] = React.useState(null);
-    const sampleType = ["Grass",];
+    
+    const [name, setName] = React.useState('');
+    const [type, setType] = React.useState('');
+    const [description, setDescription] = React.useState('');
+    const [photo, setPhoto] = React.useState('photo');
+    
+    const setPokeDetail = (item) => {
+        setName(item.name.english);
+        setType(item.type.join(', '));
+        setDescription(item.description);
+        setPhoto(item.image.hires);
+    };
 
     React.useEffect( () => {
         console.log(String({id}.id));
         axios.get('https://pokemon-api-nssw.onrender.com/pokemon/' + String({id}.id))
 			.then(response => {
-                setPokeDetail(response);
+                setPokeDetail(response.data[0]);
                 console.log('pokeDetail');
-                // console.log(pokeDetail);
             });
     }, [id]);
 
@@ -25,28 +34,39 @@ export default function ViewProfile() {
         
 		<ImageBackground
             source ={BgImage}
-            style = {styles.backgroundImage}
+            style = {[styles.backgroundImage,
+                type.includes("Electric") && styles.elecType,
+                type.includes("Psychic") && styles.psyType,
+                type.includes("Dark") && styles.darkType,
+                type.includes("Fighting") && styles.fightType,
+                type.includes("Bug") && styles.poisonType,
+                type.includes("Ground") && styles.rockType,
+                type.includes("Flying") && styles.flyType,
+                type.includes("Poison") && styles.poisonType,
+                type.includes("Rock") && styles.rockType,
+                type.includes("Fire") && styles.fireType,
+                type.includes("Water") && styles.waterType,
+                type.includes("Grass") && styles.grassType,
+                type.includes("Normal") && styles.normalType,
+            ]}
             resizeMode="cover"
                 >
                     <View 
                         style = {[styles.container, (theme === 'light' ? styles.container : styles.containerDark)]}>
                         <Image
                             source = {{
-                                uri : ('pokeDetail.image.hires')
-                                // uri : ('https://raw.githubusercontent.com/Purukitto/pokemon-data.json/master/images/pokedex/hires/003.png')
+                                uri : photo
                             }}
                             style = {styles.pokemonThumb}></Image>
                         <Text style={{ fontSize: 23, textAlign: "left" }}>
-                            Name: {pokeDetail[0].name.english}
-                            {/* Venusaur */}
+                            Name: {name}
                         </Text>
                         <Text style={{ fontSize: 23, textAlign: "left" }}>
-                            Type: {pokeDetail[0].type}
-                            {/* {sampleType.join(', ')} */}
+                            
+                            Type: {type}
                         </Text>
                         <Text style={{ fontSize: 23, textAlign: "left" }}>
-                            Description: {/* {pokeDetail[0].name.english} */}
-                            {/* There is a large flower on Venusaur’s back. The flower is said to take on vivid colors if it gets plenty of nutrition and sunlight. The flower’s aroma soothes the emotions of people. */}
+                            Description: {description}
                         </Text>
 
                         <TouchableOpacity
@@ -100,5 +120,38 @@ const styles = StyleSheet.create({
 		width: '100%',
 		height: '100%',
 	},
+    grassType: {
+        backgroundColor: 'green',
+    },
+    fireType: {
+        backgroundColor: 'orange',
+    },
+    waterType: {
+        backgroundColor: '#346beb',
+    },
+    poisonType: {
+        backgroundColor: '#ae21ff',
+    },
+    rockType: {
+        backgroundColor: 'silver',
+    },
+    flyType: {
+        backgroundColor: '#9dc7e3',
+    },
+    fightType: {
+        backgroundColor: '#e06063',
+    },
+    psyType: {
+        backgroundColor: '#cbf748',
+    },
+    darkType: {
+        backgroundColor: '#4a4f80',
+    },
+    elecType: {
+        backgroundColor: 'yellow',
+    },
+    normalType: {
+        backgroundColor: 'gray',
+    },
 
 });

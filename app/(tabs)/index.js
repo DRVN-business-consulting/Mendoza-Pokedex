@@ -12,7 +12,7 @@ export default function ProfileScreen() {
     console.log('posts:', posts.length);
 
     return (
-            <View style={styles.container}>
+            <View style={(theme === 'light' ? styles.container : styles.containerDark)}>
                 <Image
                     source = {PokemonLogo}
                     style = {{
@@ -27,13 +27,14 @@ export default function ProfileScreen() {
                     renderItem={ ({item}) => (
                         <TouchableOpacity
                             onPress={() => router.push('profile/ ' + item.id)}
-                            style = {styles.pokemonList}>
+                            style = {(theme === 'light' ? styles.pokemonList : styles.pokemonListDark)}>
                                 <Image
                                     source = {{
                                         uri : item.image.hires
                                     }}
                                     style = {styles.pokemonThumb}></Image>
-                                <Text style>{item.name.english}</Text>
+                                <Text 
+                                    style = {(theme === 'light' ? styles.pokemonName : styles.pokemonNameDark)}>{item.name.english}</Text>
                         </TouchableOpacity>
                     )}></FlatList>
 
@@ -45,6 +46,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+		width: "100%",
+		height: "100%",
+    },
+    containerDark: {
+        flex: 1,
+        backgroundColor: '#000',
         alignItems: 'center',
         justifyContent: 'center',
 		width: "100%",
@@ -63,6 +72,20 @@ const styles = StyleSheet.create({
         padding: 20,
         flex: 1,
         alignItems: "center"
+    },
+    pokemonListDark: {
+        borderBottomColor: "red",
+        borderBottomWidth: 2,
+        padding: 20,
+        flex: 1,
+        alignItems: "center"
+    },
+    pokemonName: {
+        fontSize: 25
+    },
+    pokemonNameDark: {
+        color: "white",
+        fontSize: 25
     },
     pokemonThumb: {
         width :100,
